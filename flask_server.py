@@ -22,7 +22,7 @@ def add_video():
     # Upload video directory to the blob storage
     videos_container_name = 'videos'
     blob_videos_uploader = BlobFileUploader(videos_container_name, video_file)
-    #blob_videos_uploader.upload_file(video_file)
+    blob_videos_uploader.upload_file(video_file)
 
     save_video_to_db(video_file)
     save_frames(video_file)

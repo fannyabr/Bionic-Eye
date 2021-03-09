@@ -75,4 +75,4 @@ def save_frames(video_path):
     # Save all the frames in the folder to the blob storage ad delete locally
     container_name = 'frames'
     blob_frames_uploader = BlobFileUploader(container_name, video_frames_dir)
-    #blob_frames_uploader.upload_all_files()
+    blob_frames_uploader.upload_all_files()
