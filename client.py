@@ -8,3 +8,7 @@ if __name__ == '__main__':
         files = {'file': open('local_videos/TelAviv_15_06_34_12_06_00.mp4', 'rb')}
         r = requests.post('http://localhost:5000/addVideo', files=files)
         print(r)
+
+    video_paths = requests.get('http://localhost:5000/videoPaths')
+    print(video_paths.text)
+
