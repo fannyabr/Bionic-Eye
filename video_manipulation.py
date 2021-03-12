@@ -1,9 +1,10 @@
-from BionicEye.given_functions import generate_metadata, is_frame_tagged
-from BionicEye.app import *
-from BionicEye.manage_saving import OSManage, DBManage
+from flask import request, jsonify
 import cv2
 import shutil
 import os
+from BionicEye.given_functions import generate_metadata, is_frame_tagged
+from BionicEye.app import Video, Metadata, Frame
+from BionicEye.manage_saving import OSManage, DBManage
 
 DB_MANAGE = DBManage()
 OS_MANAGE = OSManage()
@@ -34,8 +35,10 @@ def save_video(video_path):
     video_file_name = os.path.basename(video_path)
     observation_post_name = video_file_name.split('_')[0]
     frames_amount = count_frames(video_path)
-    video = Video(observation_post_name=observation_post_name, video_path=video_os_path, frames_amount=frames_amount)
-    DB_MANAGE.save(video)
+    if not DB_MANAGE.query(Video.id).filter_by(video_path=video_os_path).first():
+        video = Video(observation_post_name=observation_post_name,
+                      video_path=video_os_path, frames_amount=frames_amount)
+        DB_MANAGE.save(video)
     OS_MANAGE.upload_file(video_path)
 
 
@@ -66,7 +69,7 @@ def save_frames(video_path):
     frame_number = 0
     cap = cv2.VideoCapture(video_path)
     video_file_name = os.path.basename(video_path)
-    os.makedirs(f'frames/{video_file_name}-frames')
+    os.makedirs(f'frames/{video_file_name}-frames', exist_ok=True)
     all_frames_dir = os.path.join(os.getcwd(), 'frames')
     video_frames_dir = os.path.join(all_frames_dir, f'{video_file_name}-frames')
     read_correctly, frame = cap.read()
@@ -80,8 +83,10 @@ def save_frames(video_path):
         frame_os_path = os.path.relpath(frame_path)
         video_os_path = os.path.relpath(video_path)
         video_id = DB_MANAGE.query(Video.id).filter_by(video_path=video_os_path).first()
-        db_frame = Frame(video_id=video_id, metadata_id=metadata_id, frame_path=frame_os_path, frame_index=frame_number)
-        DB_MANAGE.save(db_frame)
+        if not DB_MANAGE.query(Frame.id).filter_by(frame_path=frame_os_path).first():
+            db_frame = Frame(video_id=video_id, metadata_id=metadata_id,
+                             frame_path=frame_os_path, frame_index=frame_number)
+            DB_MANAGE.save(db_frame)
 
         frame_number += 1
         read_correctly, frame = cap.read()
@@ -90,3 +95,21 @@ def save_frames(video_path):
     OS_MANAGE.upload_dir(video_frames_dir)
     shutil.rmtree(all_frames_dir)
     shutil.rmtree(os.path.dirname(video_path))
+
+
+def add_video():
+    uploaded_file = request.files['file']
+    os.makedirs('videos', exist_ok=True)
+    videos_dir = os.path.join(os.getcwd(), 'videos')
+    video_path = os.path.join(videos_dir, uploaded_file.filename)
+
+    uploaded_file.save(video_path)
+
+    save_video(video_path)
+    save_frames(video_path)
+
+
+def get_video_paths():
+    video_paths = DB_MANAGE.query(Video.video_path).all()
+    return jsonify(path_list=[path for (path,) in video_paths])
+

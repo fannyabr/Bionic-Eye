@@ -1,4 +1,3 @@
-from BionicEye.controllers.video_controller import *
 from sqlalchemy import Column, String, Integer, Boolean, Float, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, Response
@@ -36,7 +35,7 @@ class Metadata(db.Model):
 class Frame(db.Model):
     __tablename__ = 'frames'
 
-    frame_id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     video_id = Column(Integer, ForeignKey('videos.id'))
     metadata_id = Column(Integer, ForeignKey('metadata.id'))
     frame_path = Column(String)
@@ -45,6 +44,7 @@ class Frame(db.Model):
 
 @app.route('/addVideo', methods=['POST'])
 def run_add_video():
+    from BionicEye.video_manipulation import add_video
     add_video()
 
     return Response()
@@ -52,9 +52,9 @@ def run_add_video():
 
 @app.route('/videoPaths', methods=['GET'])
 def run_get_video_paths():
+    from BionicEye.video_manipulation import get_video_paths
     return get_video_paths()
 
 
 if __name__ == '__main__':
-    os.makedirs('videos', exist_ok=True)
     app.run()

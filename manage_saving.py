@@ -2,12 +2,13 @@ from azure.storage.blob import BlobServiceClient
 from azure.core.exceptions import ResourceExistsError
 from concurrent.futures import ThreadPoolExecutor
 from dotenv import load_dotenv
-from BionicEye.app import db
 import os
+
+from BionicEye.app import db
 
 load_dotenv()
 
-CONNECTION_STRING = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
+CONNECTION_STRING = os.getenv('CONNECTION_STRING')
 OS_CONTAINER = os.getenv('OS _CONTAINER')
 MAX_THREADS = 10
 
@@ -53,6 +54,7 @@ class OSManage(metaclass=SingletonMeta):
         blob_client = self.blob_service_client.get_blob_client(container='bionic-eye', blob=blob_path)
         if not blob_client.exists():
             print("\nUploading to Azure Storage as blob")
+            print(file_path)
             with open(file_path, "rb") as data:
                 blob_client.upload_blob(data)
             print('done uploading!')
@@ -62,4 +64,5 @@ class OSManage(metaclass=SingletonMeta):
         Uploads list of files to the container in the storage with multithreading
         """
         with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
-            executor.map(self.upload_file, [file for file in os.listdir(dir_path)])
+            executor.map(self.upload_file, [os.path.join(os.path.relpath(dir_path), file_name)
+                                            for file_name in os.listdir(dir_path)])

@@ -125,3 +125,4 @@ venv.bak/
 dmypy.json
 
 *.mp4
+client.py
