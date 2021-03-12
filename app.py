@@ -44,7 +44,7 @@ class Frame(db.Model):
 
 @app.route('/addVideo', methods=['POST'])
 def run_add_video():
-    from BionicEye.video_manipulation import add_video
+    from BionicEye.controllers.video_controller import add_video
     add_video()
 
     return Response()
@@ -52,7 +52,8 @@ def run_add_video():
 
 @app.route('/videoPaths', methods=['GET'])
 def run_get_video_paths():
-    from BionicEye.video_manipulation import get_video_paths
+    from BionicEye.controllers.video_controller import get_video_paths
+
     return get_video_paths()
 
 

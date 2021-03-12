@@ -3,38 +3,14 @@ from azure.core.exceptions import ResourceExistsError
 from concurrent.futures import ThreadPoolExecutor
 from dotenv import load_dotenv
 import os
+from BionicEye.singelton_classes.singelton_meta import SingletonMeta
 
-from BionicEye.app import db
 
 load_dotenv()
 
 CONNECTION_STRING = os.getenv('CONNECTION_STRING')
 OS_CONTAINER = os.getenv('OS _CONTAINER')
-MAX_THREADS = 10
-
-
-class SingletonMeta(type):
-    _instances = {}
-
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            instance = super().__call__(*args, **kwargs)
-            cls._instances[cls] = instance
-
-        return cls._instances[cls]
-
-
-class DBManage(metaclass=SingletonMeta):
-    def __init__(self):
-        self.db = db
-        self.db.create_all()
-
-    def save(self, db_object):
-        self.db.session.add(db_object)
-        self.db.session.commit()
-
-    def query(self, col):
-        return self.db.session.query(col)
+MAX_THREADS = 100
 
 
 class OSManage(metaclass=SingletonMeta):
