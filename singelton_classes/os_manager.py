@@ -9,20 +9,22 @@ from BionicEye.singelton_classes.singelton_meta import SingletonMeta
 load_dotenv()
 
 CONNECTION_STRING = os.getenv('CONNECTION_STRING')
-OS_CONTAINER = os.getenv('OS _CONTAINER')
+OS_CONTAINER = os.getenv('OS_CONTAINER')
 MAX_THREADS = 100
 
 
-class OSManage(metaclass=SingletonMeta):
+class OSManager(metaclass=SingletonMeta):
     def __init__(self):
         """
-        Stores connection to the os and creates the container if not exists
+        Stores connection to the os and creates the container if it doesn't exist
         """
-        self.blob_service_client = BlobServiceClient.from_connection_string(CONNECTION_STRING)
         try:
-            self.blob_service_client.create_container('bionic-eye')
+            self.blob_service_client = BlobServiceClient.from_connection_string(CONNECTION_STRING)
+            self.blob_service_client.create_container(OS_CONTAINER)
         except ResourceExistsError:
             pass
+        except ValueError:
+            raise Exception("Can't connect to to azure blob storage")
 
     def upload_file(self, file_path):
         """
@@ -30,13 +32,14 @@ class OSManage(metaclass=SingletonMeta):
         :param file_path: the file that will be uploaded
         """
         blob_path = os.path.relpath(file_path)
-        blob_client = self.blob_service_client.get_blob_client(container='bionic-eye', blob=blob_path)
+        blob_client = self.blob_service_client.get_blob_client(container=OS_CONTAINER, blob=blob_path)
         if not blob_client.exists():
             print("\nUploading to Azure Storage as blob")
-            print(blob_path)
             with open(file_path, "rb") as data:
                 blob_client.upload_blob(data)
             print('done uploading!')
+        else:
+            print('blob already exists')
 
     def upload_dir(self, dir_path):
         """

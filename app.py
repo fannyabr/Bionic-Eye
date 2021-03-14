@@ -1,6 +1,5 @@
-from sqlalchemy import Column, String, Integer, Boolean, Float, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, Response
+from flask import Flask, Response, jsonify
 from dotenv import load_dotenv
 import os
 
@@ -13,39 +12,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-class Video(db.Model):
-    __tablename__ = 'videos'
-
-    id = Column(Integer, primary_key=True)
-    observation_post_name = Column(String)
-    video_path = Column(String)
-    frames_amount = Column(Integer)
-
-
-class Metadata(db.Model):
-    __tablename__ = 'metadata'
-
-    id = Column(Integer, primary_key=True)
-    frame_tag = Column(Boolean)
-    camera_fov = Column(Float)
-    azimuth = Column(Float)
-    elevation = Column(Float)
-
-
-class Frame(db.Model):
-    __tablename__ = 'frames'
-
-    id = Column(Integer, primary_key=True)
-    video_id = Column(Integer, ForeignKey('videos.id'))
-    metadata_id = Column(Integer, ForeignKey('metadata.id'))
-    frame_path = Column(String)
-    frame_index = Column(Integer)
-
-
 @app.route('/addVideo', methods=['POST'])
 def run_add_video():
     from BionicEye.controllers.video_controller import add_video
-    add_video()
+
+    try:
+        add_video()
+    except:
+        Response().set_data("Couldn't save video")
 
     return Response()
 
@@ -54,8 +28,11 @@ def run_add_video():
 def run_get_video_paths():
     from BionicEye.controllers.video_controller import get_video_paths
 
-    return get_video_paths()
+    video_paths = get_video_paths()
+
+    return jsonify(video_paths=video_paths)
 
 
 if __name__ == '__main__':
+    os.makedirs('videos', exist_ok=True)
     app.run()

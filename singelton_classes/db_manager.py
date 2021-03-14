@@ -2,7 +2,7 @@ from BionicEye.singelton_classes.singelton_meta import SingletonMeta
 from BionicEye.app import db
 
 
-class DBManage(metaclass=SingletonMeta):
+class DBManager(metaclass=SingletonMeta):
     def __init__(self):
         """
         Stores db connection and creates all the tables
