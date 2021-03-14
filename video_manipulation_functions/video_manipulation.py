@@ -12,8 +12,9 @@ OS_MANAGE = OSManage()
 
 def count_frames(video_path):
     """
-    :param video_path:
-    :return:
+    Counts frames in a video
+    :param video_path: path to a video file
+    :return: the amount of frames in the video
     """
     frame_number = 0
     cap = cv2.VideoCapture(video_path)
@@ -28,8 +29,8 @@ def count_frames(video_path):
 
 def save_video(video_path):
     """
-    Saves given video information to the db and the os
-    :param video_path: path to the video file we want to save to the db
+    Saves given video information to the db and the os if not exists already
+    :param video_path: path to the video file we want to save
     """
     video_os_path = os.path.relpath(video_path)
     video_file_name = os.path.basename(video_path)
@@ -43,7 +44,11 @@ def save_video(video_path):
 
 
 def save_metadata(frame):
-    # Save frames metadata to db if not exists
+    """
+    Save frames metadata to db if not exists
+    :param frame: frame from some video
+    :return: db id of the metadata of the given frame
+    """
     fov, azimuth, elevation = generate_metadata(frame)
     frame_tag = is_frame_tagged(frame)
     metadata_id = DB_MANAGE.query(Metadata.id) \
@@ -62,9 +67,8 @@ def save_metadata(frame):
 
 def save_frames(video_path):
     """
-    Save frames of the given video to the db and to os. Also, saves the metadata of the frame to the db if not exists.
-    :param video_path:
-    :return:
+    Save frames of the given video to the db and to os
+    :param video_path: path to the video file we break into frames
     """
     frame_number = 0
     cap = cv2.VideoCapture(video_path)

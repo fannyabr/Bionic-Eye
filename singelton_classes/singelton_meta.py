@@ -1,4 +1,7 @@
 class SingletonMeta(type):
+    """
+    Defines singleton base class that checks there is just one instance of the class
+    """
     _instances = {}
 
     def __call__(cls, *args, **kwargs):
