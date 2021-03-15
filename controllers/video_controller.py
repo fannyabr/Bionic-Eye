@@ -1,11 +1,13 @@
 import os
 from flask import request
 from BionicEye.singelton_classes.db_manager import DBManager
+from BionicEye.singelton_classes.os_manager import OSManager
 from BionicEye.models import Video
 from BionicEye.video_manipulation_functions.videos import save_video
 from BionicEye.video_manipulation_functions.frames import save_frames
 
 DB_MANAGER = DBManager()
+OS_MANAGER = OSManager()
 VIDEOS_DIR = os.path.join(os.getcwd(), 'videos')
 
 
@@ -13,8 +15,6 @@ def add_video():
     """
     Gets video file in a post request and saves it to the db and the os
     """
-    # from BionicEye.video_manipulation_functions.video_manipulation import save_video, save_frames
-
     uploaded_file = request.files['file']
     video_path = os.path.join(VIDEOS_DIR, uploaded_file.filename)
     _, extension = os.path.splitext(video_path)

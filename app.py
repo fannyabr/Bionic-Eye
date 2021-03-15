@@ -3,7 +3,6 @@ from flask import Flask, Response, jsonify
 from dotenv import load_dotenv
 import os
 
-
 load_dotenv()
 
 app = Flask(__name__)
@@ -30,7 +29,7 @@ def run_get_video_paths():
 
     video_paths = get_video_paths()
 
-    return jsonify(video_paths=video_paths)
+    return jsonify(video_paths)
 
 
 if __name__ == '__main__':
