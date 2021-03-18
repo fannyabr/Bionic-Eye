@@ -35,3 +35,11 @@ def get_video_paths():
     video_paths = DB_MANAGER.query(Video.video_path).all()
 
     return [path for (path,) in video_paths]
+
+
+def download_video():
+    """
+    Downloads video from the os path given in the request
+    """
+    os_path = request.args.get("os_path")
+    OS_MANAGER.download_file(os_path)
