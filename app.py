@@ -32,6 +32,15 @@ def run_get_video_paths():
     return jsonify(video_paths)
 
 
+@app.route('/framePaths', methods=['GET'])
+def run_get_video_frames():
+    from draft.BionicEye.controllers.frame_controller import get_video_frames
+
+    frame_paths = get_video_frames()
+
+    return jsonify(frame_paths)
+
+
 if __name__ == '__main__':
     os.makedirs('videos', exist_ok=True)
     app.run()
