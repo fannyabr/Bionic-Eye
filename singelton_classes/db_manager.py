@@ -1,5 +1,5 @@
 from BionicEye.singelton_classes.singelton_meta import SingletonMeta
-from BionicEye.app import db
+from .. import db
 
 
 class DBManager(metaclass=SingletonMeta):
