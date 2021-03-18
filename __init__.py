@@ -13,7 +13,6 @@ def init_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
-    os.makedirs('videos', exist_ok=True)
 
     with app.app_context():
         from . import routes
