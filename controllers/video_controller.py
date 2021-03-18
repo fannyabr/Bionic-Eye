@@ -8,7 +8,6 @@ from BionicEye.video_manipulation_functions.frames import save_frames
 
 DB_MANAGER = DBManager()
 OS_MANAGER = OSManager()
-VIDEOS_DIR = os.path.join(os.getcwd(), 'videos')
 
 
 def add_video():
@@ -16,8 +15,9 @@ def add_video():
     Gets video file in a post request and saves it to the db and the os
     """
     uploaded_file = request.files['file']
-    video_path = os.path.join(VIDEOS_DIR, uploaded_file.filename)
-    _, extension = os.path.splitext(video_path)
+    video_name, extension = os.path.splitext(uploaded_file.filename)
+    os.makedirs(video_name, exist_ok=True)
+    video_path = os.path.join(video_name, uploaded_file.filename)
 
     if extension != '.mp4':
         raise Exception('File type should be mp4')
