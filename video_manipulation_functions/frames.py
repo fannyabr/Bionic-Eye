@@ -62,5 +62,5 @@ def save_frames(video_path):
         read_correctly, frame = cap.read()
 
     cap.release()
-    # OS_MANAGER.upload_dir(frames_dir)
+    OS_MANAGER.upload_dir(frames_dir)
     shutil.rmtree(video_dir)
