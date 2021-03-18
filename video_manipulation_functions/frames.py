@@ -39,14 +39,14 @@ def save_frames(video_path):
     """
     frame_number = 0
     cap = cv2.VideoCapture(video_path)
-    video_file_name = os.path.basename(video_path)
-    os.makedirs(f'frames/{video_file_name}-frames', exist_ok=True)
-    video_frames_dir = os.path.join(ALL_FRAMES_DIR, f'{video_file_name}-frames')
+    video_dir = os.path.dirname(video_path)
+    frames_dir = os.path.join(video_dir, 'frames')
+    os.makedirs(frames_dir, exist_ok=True)
     read_correctly, frame = cap.read()
 
     while read_correctly:
         frame_file_name = f'{frame_number}.png'
-        frame_path = os.path.join(video_frames_dir, frame_file_name)
+        frame_path = os.path.join(frames_dir, frame_file_name)
         cv2.imwrite(frame_path, frame)
 
         metadata_id = save_metadata(frame)
@@ -62,6 +62,5 @@ def save_frames(video_path):
         read_correctly, frame = cap.read()
 
     cap.release()
-    OS_MANAGER.upload_dir(video_frames_dir)
-    shutil.rmtree(ALL_FRAMES_DIR)
-    shutil.rmtree(os.path.dirname(video_path))
+    OS_MANAGER.upload_dir(frames_dir)
+    shutil.rmtree(video_dir)
