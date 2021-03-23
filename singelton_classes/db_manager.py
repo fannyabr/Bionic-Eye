@@ -1,5 +1,5 @@
 from BionicEye.singelton_classes.singelton_meta import SingletonMeta
-from .. import db
+from BionicEye import db
 
 
 class DBManager(metaclass=SingletonMeta):
@@ -8,7 +8,6 @@ class DBManager(metaclass=SingletonMeta):
         Stores db connection and creates all the tables
         """
         self.db = db
-        self.db.create_all()
 
     def save(self, db_object):
         """
