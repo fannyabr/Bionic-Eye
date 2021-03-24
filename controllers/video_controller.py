@@ -43,5 +43,6 @@ def get_video_paths():
 def download_video(os_path):
     """
     Downloads video from the os path given in the request
+    :param os_path: path in the os
     """
     OS_MANAGER.download_file(os_path)
