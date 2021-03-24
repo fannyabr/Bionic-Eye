@@ -19,6 +19,9 @@ def count_frames(video_path):
     frame_number = 0
     cap = cv2.VideoCapture(video_path)
 
+    if not cap.isOpened():
+        raise Exception("Can't open video")
+
     try:
         frame_number = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     except Exception as e:

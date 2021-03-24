@@ -13,8 +13,8 @@ def run_add_video():
     except TypeError:
         return Response("The file must be a video", status=422)
     else:
-        return Response("The video file added successfully")
-    
+        return Response()
+
 
 @app.route('/videoPaths', methods=['GET'])
 def run_get_video_paths():
