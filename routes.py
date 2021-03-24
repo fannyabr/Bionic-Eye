@@ -1,6 +1,5 @@
 from flask import Response, jsonify, request
 from flask import current_app as app
-import os
 from BionicEye.controllers.video_controller import add_video, get_video_paths
 
 
@@ -21,8 +20,3 @@ def run_get_video_paths():
     video_paths = get_video_paths()
 
     return jsonify(video_paths)
-
-
-if __name__ == '__main__':
-    os.makedirs('videos', exist_ok=True)
-    app.run()
