@@ -1,4 +1,4 @@
-from flask import Response, jsonify
+from flask import Response, jsonify, request
 from flask import current_app as app
 import os
 from BionicEye.controllers.video_controller import add_video, get_video_paths, get_video_path
@@ -6,12 +6,14 @@ from BionicEye.controllers.video_controller import add_video, get_video_paths, g
 
 @app.route('/addVideo', methods=['POST'])
 def run_add_video():
-    try:
-        add_video()
-    except:
-        Response().set_data("Couldn't save video")
+    uploaded_file = request.files['file']
 
-    return Response()
+    try:
+        add_video(uploaded_file)
+    except TypeError as e:
+        return Response(str(e), status=422)
+    else:
+        return Response()
 
 
 @app.route('/videoPaths', methods=['GET'])
