@@ -33,7 +33,7 @@ def add_video(uploaded_file):
 def get_video_paths():
     """
     Get all video paths from the db
-    :return: json object with the list of paths
+    :return: list of video paths in the os
     """
     video_paths = DB_MANAGER.query(Video.video_path).all()
 
