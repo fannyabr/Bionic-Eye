@@ -10,8 +10,8 @@ def run_add_video():
 
     try:
         add_video(uploaded_file)
-    except TypeError:
-        return Response("The file must be a video", status=422)
+    except TypeError as e:
+        return Response(str(e), status=422)
     else:
         return Response()
 
