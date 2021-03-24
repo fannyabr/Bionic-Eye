@@ -32,19 +32,19 @@ def add_video(uploaded_file):
 def get_video_paths():
     """
     Get all video paths from the db
-    :return: json object with the list of paths
+    :return: list of video os paths
     """
     video_paths = DB_MANAGER.query(Video.video_path).all()
 
     return [path for (path,) in video_paths]
 
 
-def get_video_path():
+def get_video_path(video_id):
     """
     Gets from the db video os path of the video given in the request
+    :param video_id: id of a video to search in the db
     :return: the os path of the video
     """
-    video_id = request.args.get("video_id")
     video_path = DB_MANAGER.query(Video.video_path).filter_by(id=video_id).one_or_none()
 
     return video_path
