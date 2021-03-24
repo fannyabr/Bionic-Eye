@@ -127,3 +127,4 @@ dmypy.json
 *.mp4
 client.py
 wsgi.py
+a.txt
