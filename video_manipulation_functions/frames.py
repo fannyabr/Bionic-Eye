@@ -8,7 +8,6 @@ from BionicEye.video_manipulation_functions.metadata import save_metadata
 
 DB_MANAGER = DBManager()
 OS_MANAGER = OSManager()
-ALL_FRAMES_DIR = os.path.join(os.getcwd(), 'frames')
 
 
 def count_frames(video_path):
@@ -22,7 +21,8 @@ def count_frames(video_path):
 
     try:
         frame_number = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    except:
+    except Exception as e:
+        print(e)
         read_correctly, frame = cap.read()
 
         while read_correctly:

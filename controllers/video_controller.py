@@ -1,5 +1,5 @@
 import os
-from flask import request, Response
+from flask import request
 from dotenv import load_dotenv
 from BionicEye.singelton_classes.db_manager import DBManager
 from BionicEye.singelton_classes.os_manager import OSManager
