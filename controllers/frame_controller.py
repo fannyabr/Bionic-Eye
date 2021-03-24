@@ -1,4 +1,3 @@
-from flask import request
 from BionicEye.singelton_classes.db_manager import DBManager
 from BionicEye.singelton_classes.os_manager import OSManager
 from BionicEye.models import Frame, Metadata
