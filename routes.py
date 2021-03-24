@@ -6,8 +6,10 @@ from BionicEye.controllers.video_controller import add_video, get_video_paths
 
 @app.route('/addVideo', methods=['POST'])
 def run_add_video():
-
-    return add_video()
+    try:
+        add_video()
+    except TypeError:
+        return Response("The file must be a video", status=422)
 
 
 @app.route('/videoPaths', methods=['GET'])
