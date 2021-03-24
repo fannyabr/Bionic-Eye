@@ -6,8 +6,10 @@ from BionicEye.controllers.frame_controller import get_frame
 
 @app.route('/addVideo', methods=['POST'])
 def run_add_video():
+    uploaded_file = request.files['file']
+
     try:
-        add_video()
+        add_video(uploaded_file)
     except TypeError:
         return Response("The file must be a video", status=422)
 

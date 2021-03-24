@@ -1,5 +1,4 @@
 import os
-from flask import request
 from dotenv import load_dotenv
 from BionicEye.singelton_classes.db_manager import DBManager
 from BionicEye.singelton_classes.os_manager import OSManager
@@ -13,21 +12,21 @@ OS_MANAGER = OSManager()
 load_dotenv()
 
 
-def add_video():
+def add_video(uploaded_file):
     """
     Gets video file in a post request and saves it to the db and the os
     """
-    uploaded_file = request.files['file']
     video_name, extension = os.path.splitext(uploaded_file.filename)
-    os.makedirs(video_name, exist_ok=True)
-    video_path = os.path.join(video_name, uploaded_file.filename)
 
     if extension not in os.getenv('VIDEO_EXTENSIONS'):
         raise TypeError("The file is not a video")
-    else:
-        uploaded_file.save(video_path)
-        save_video(video_path)
-        save_frames(video_path)
+
+    os.makedirs(video_name, exist_ok=True)
+    video_path = os.path.join(video_name, uploaded_file.filename)
+
+    uploaded_file.save(video_path)
+    save_video(video_path)
+    save_frames(video_path)
 
 
 def get_video_paths():
