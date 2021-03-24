@@ -15,6 +15,7 @@ load_dotenv()
 def add_video(uploaded_file):
     """
     Gets video file in a post request and saves it to the db and the os
+    :param uploaded_file: video file to save
     """
     video_name, extension = os.path.splitext(uploaded_file.filename)
 
