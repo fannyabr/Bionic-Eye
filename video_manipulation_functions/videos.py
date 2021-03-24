@@ -21,4 +21,4 @@ def save_video(video_path):
         video = Video(observation_post_name=observation_post_name,
                       video_path=video_os_path, frames_amount=frames_amount)
         DB_MANAGER.save(video)
-    OS_MANAGER.upload_file(video_path)
+    OS_MANAGER.upload_file(video_path, video_os_path)
