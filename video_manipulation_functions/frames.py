@@ -41,7 +41,11 @@ def save_frames(video_path):
     cap = cv2.VideoCapture(video_path)
     video_dir = os.path.dirname(video_path)
     frames_dir = os.path.join(video_dir, 'frames')
+    video_os_path = os.path.relpath(video_path)
+    video_id = DB_MANAGER.query(Video.id).filter_by(video_path=video_os_path).one()
+
     os.makedirs(frames_dir, exist_ok=True)
+
     read_correctly, frame = cap.read()
 
     while read_correctly:
@@ -51,8 +55,7 @@ def save_frames(video_path):
 
         metadata_id = save_metadata(frame)
         frame_os_path = os.path.relpath(frame_path)
-        video_os_path = os.path.relpath(video_path)
-        video_id = DB_MANAGER.query(Video.id).filter_by(video_path=video_os_path).one()
+
         if not DB_MANAGER.query(Frame.id).filter_by(frame_path=frame_os_path).one_or_none():
             db_frame = Frame(video_id=video_id, metadata_id=metadata_id,
                              frame_path=frame_os_path, frame_index=frame_number)

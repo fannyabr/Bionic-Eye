@@ -6,12 +6,8 @@ from BionicEye.controllers.video_controller import add_video, get_video_paths
 
 @app.route('/addVideo', methods=['POST'])
 def run_add_video():
-    try:
-        add_video()
-    except:
-        Response().set_data("Couldn't save video")
 
-    return Response()
+    return add_video()
 
 
 @app.route('/videoPaths', methods=['GET'])

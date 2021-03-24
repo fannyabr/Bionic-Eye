@@ -1,5 +1,6 @@
 import os
-from flask import request
+from flask import request, Response
+from dotenv import load_dotenv
 from BionicEye.singelton_classes.db_manager import DBManager
 from BionicEye.singelton_classes.os_manager import OSManager
 from BionicEye.models import Video
@@ -8,6 +9,8 @@ from BionicEye.video_manipulation_functions.frames import save_frames
 
 DB_MANAGER = DBManager()
 OS_MANAGER = OSManager()
+
+load_dotenv()
 
 
 def add_video():
@@ -19,12 +22,13 @@ def add_video():
     os.makedirs(video_name, exist_ok=True)
     video_path = os.path.join(video_name, uploaded_file.filename)
 
-    if extension != '.mp4':
-        raise Exception('File type should be mp4')
-
-    uploaded_file.save(video_path)
-    save_video(video_path)
-    save_frames(video_path)
+    if extension not in os.getenv('VIDEO_EXTENSIONS'):
+        return Response(status=422)
+    else:
+        uploaded_file.save(video_path)
+        save_video(video_path)
+        save_frames(video_path)
+        return Response()
 
 
 def get_video_paths():

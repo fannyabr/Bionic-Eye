@@ -6,11 +6,15 @@ import os
 db = SQLAlchemy()
 
 
-def init_app():
+def init_app(testing=False):
     app = Flask(__name__, instance_relative_config=False)
     load_dotenv()
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    if testing:
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('TEST_DB_URI')
+    else:
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
 
     db.init_app(app)
 
