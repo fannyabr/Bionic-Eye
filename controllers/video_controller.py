@@ -26,7 +26,7 @@ def add_video(uploaded_file):
     video_path = os.path.join(video_name, uploaded_file.filename)
 
     uploaded_file.save(video_path)
-    save_video(video_path)
+    save_video(video_path, video_path)
     save_frames(video_path)
 
 

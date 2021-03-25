@@ -43,6 +43,10 @@ def save_frames(video_path):
     """
     frame_number = 0
     cap = cv2.VideoCapture(video_path)
+
+    if not cap.isOpened():
+        raise Exception("Can't open video")
+
     video_dir = os.path.dirname(video_path)
     frames_dir = os.path.join(video_dir, 'frames')
     video_os_path = os.path.relpath(video_path)
@@ -69,5 +73,5 @@ def save_frames(video_path):
         read_correctly, frame = cap.read()
 
     cap.release()
-    OS_MANAGER.upload_dir(frames_dir)
+    OS_MANAGER.upload_dir(frames_dir, frames_dir)
     shutil.rmtree(video_dir)
