@@ -6,6 +6,17 @@ DB_MANAGER = DBManager()
 OS_MANAGER = OSManager()
 
 
+def get_video_frames(video_id):
+    """
+    Gets from the db all the frame paths from the video given in the request
+    :param video_id: id of a video in the db
+    :return: list of frame paths in the os
+    """
+    frame_paths = DB_MANAGER.query(Frame.frame_path).filter_by(video_id=video_id).all()
+
+    return [path for (path,) in frame_paths]
+
+
 def get_frame(video_id, frame_index):
     """
     Gets from the db the frame path with the index and video id given in the request
