@@ -27,7 +27,11 @@ def run_get_video_paths():
 @app.route('/videoPath', methods=['GET'])
 def run_get_video():
     video_id = request.args.get("video_id")
-    video_path = get_video_path(video_id)
+
+    try:
+        video_path = get_video_path(video_id)
+    except TypeError as e:
+        return Response(str(e), status=400)
 
     return jsonify(video_path)
 

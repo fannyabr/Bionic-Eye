@@ -47,6 +47,9 @@ def get_video_path(video_id):
     :param video_id: id of a video to search in the db
     :return: the os path of the video
     """
+    if not isinstance(video_id, int):
+        raise TypeError("video id must be an integer")
+
     video_path = DB_MANAGER.query(Video.video_path).filter_by(id=video_id).one_or_none()
 
     return video_path

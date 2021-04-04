@@ -39,3 +39,36 @@ def test_get_video_paths_no_video(test_client):
     paths = get_video_paths()
 
     assert len(paths) == 0
+
+
+def test_get_video_path_id_doesnt_exist(test_client):
+    from BionicEye.src.controllers.video_controller import get_video_path
+    video_path = get_video_path(5)
+
+    assert video_path is None
+
+
+def test_get_video_path_invalid_id(test_client):
+    from BionicEye.src.controllers.video_controller import get_video_path
+
+    try:
+        get_video_path('a')
+    except TypeError:
+        assert True
+    else:
+        assert False
+
+
+def test_get_video_path_valid_id(test_client):
+    from BionicEye.src.controllers.video_controller import get_video_path
+
+    video = Video(observation_post_name='Jerusalem', video_path='testVideo/Jerusalem2', frames_amount=101)
+    db_manager = DBManager()
+
+    db_manager.save(video)
+
+    video_path = get_video_path(1)[0]
+
+    db_manager.delete_db()
+
+    assert video_path == 'testVideo/Jerusalem2'
