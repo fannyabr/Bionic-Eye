@@ -28,6 +28,9 @@ def get_frame(video_id, frame_index):
     :param frame_index: index of a frame in the video
     :return: path of the frame in the os
     """
+    if not isinstance(video_id, int) or not isinstance(frame_index, int):
+        raise TypeError("video id must be an integer")
+
     frame_path = DB_MANAGER.query(Frame.frame_path).filter_by(video_id=video_id, frame_index=frame_index).one_or_none()
 
     return frame_path

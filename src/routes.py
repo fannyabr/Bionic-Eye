@@ -52,7 +52,11 @@ def run_get_video_frames():
 def run_get_frame():
     video_id = request.args.get("video_id")
     frame_index = request.args.get("frame_index")
-    frame_path = get_frame(video_id, frame_index)
+
+    try:
+        frame_path = get_frame(video_id, frame_index)
+    except TypeError as e:
+        return Response(str(e), status=400)
 
     return jsonify(frame_path)
 
