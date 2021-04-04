@@ -20,13 +20,13 @@ def add_video(uploaded_file):
     video_name, extension = os.path.splitext(uploaded_file.filename)
 
     if extension not in os.getenv('VIDEO_EXTENSIONS'):
-        raise TypeError("The file must be a video")
+        raise TypeError("The file is not a video")
 
     os.makedirs(video_name, exist_ok=True)
     video_path = os.path.join(video_name, uploaded_file.filename)
 
     uploaded_file.save(video_path)
-    save_video(video_path)
+    save_video(video_path, video_path)
     save_frames(video_path)
 
 
