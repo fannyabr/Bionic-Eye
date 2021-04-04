@@ -13,6 +13,7 @@ def init_app(testing=False):
 
     if testing:
         app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('TEST_DB_URI')
+        app.config['TESTING'] = True
     else:
         app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
 
@@ -20,6 +21,5 @@ def init_app(testing=False):
 
     with app.app_context():
         from . import routes
-        db.create_all()
 
         return app
