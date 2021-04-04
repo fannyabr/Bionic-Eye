@@ -8,7 +8,6 @@ from BionicEye.src.video_manipulation_functions.metadata import save_metadata
 
 DB_MANAGER = DBManager()
 OS_MANAGER = OSManager()
-ALL_FRAMES_DIR = os.path.join(os.getcwd(), 'frames')
 
 
 def count_frames(video_path):

@@ -6,7 +6,7 @@ def test_save_video_one_video_observation_post_name(test_client):
     from BionicEye.src.video_manipulation_functions.videos import save_video
 
     video_os_path = 'TelAviv_15_06_34_12_06_00/TelAviv_15_06_34_12_06_00.mp4'
-    save_video('C:/Users/Fanny/Desktop/Hafifa/python/BionicEye/src/local_videos/TelAviv_15_06_34_12_06_00.mp4',
+    save_video('C:/Users/Fanny/Desktop/Hafifa/python/BionicEye/local_videos/TelAviv_15_06_34_12_06_00.mp4',
                video_os_path)
 
     db_manager = DBManager()
@@ -22,9 +22,9 @@ def test_save_video_same_videos(test_client):
     from BionicEye.src.video_manipulation_functions.videos import save_video
 
     video_os_path = 'TelAviv_15_06_34_12_06_00/TelAviv_15_06_34_12_06_00.mp4'
-    save_video('C:/Users/Fanny/Desktop/Hafifa/python/BionicEye/src/local_videos/TelAviv_15_06_34_12_06_00.mp4',
+    save_video('C:/Users/Fanny/Desktop/Hafifa/python/BionicEye/local_videos/TelAviv_15_06_34_12_06_00.mp4',
                video_os_path)
-    save_video('C:/Users/Fanny/Desktop/Hafifa/python/BionicEye/src/local_videos/TelAviv_15_06_34_12_06_00.mp4',
+    save_video('C:/Users/Fanny/Desktop/Hafifa/python/BionicEye/local_videos/TelAviv_15_06_34_12_06_00.mp4',
                video_os_path)
 
     db_manager = DBManager()
