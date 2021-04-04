@@ -13,6 +13,9 @@ def get_video_frames(video_id):
     :param video_id: id of a video in the db
     :return: list of frame paths in the os
     """
+    if not isinstance(video_id, int):
+        raise TypeError("video id must be an integer")
+
     frame_paths = DB_MANAGER.query(Frame.frame_path).filter_by(video_id=video_id).all()
 
     return [path for (path,) in frame_paths]
