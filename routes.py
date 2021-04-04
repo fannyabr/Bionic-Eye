@@ -1,6 +1,7 @@
 from flask import Response, jsonify, request
 from flask import current_app as app
-from BionicEye.controllers.video_controller import add_video, get_video_paths, get_video_path
+from azure.core.exceptions import ResourceNotFoundError
+from BionicEye.controllers.video_controller import add_video, get_video_paths, get_video_path, download_video
 from BionicEye.controllers.frame_controller import get_video_frames, get_frame
 
 
@@ -46,3 +47,15 @@ def run_get_frame():
     frame_path = get_frame(video_id, frame_index)
 
     return jsonify(frame_path)
+
+
+@app.route('/downloadVideo', methods=['GET'])
+def run_download_video():
+    os_path = request.args.get("os_path")
+
+    try:
+        download_video(os_path)
+    except ResourceNotFoundError as e:
+        return Response(str(e), status=422)
+    else:
+        return Response()

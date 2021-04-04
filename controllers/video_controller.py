@@ -49,3 +49,11 @@ def get_video_path(video_id):
     video_path = DB_MANAGER.query(Video.video_path).filter_by(id=video_id).one_or_none()
 
     return video_path
+
+
+def download_video(os_path):
+    """
+    Downloads video from the os path given in the request
+    :param os_path: path in the os
+    """
+    OS_MANAGER.download_file(os_path)

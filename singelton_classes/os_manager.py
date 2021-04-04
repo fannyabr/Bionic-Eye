@@ -74,13 +74,12 @@ class OSManager(metaclass=SingletonMeta):
         :param os_path: path to the blob we want to download
         """
         blob_client = self.blob_service_client.get_blob_client(container=OS_CONTAINER, blob=os_path)
+        if not blob_client.exists():
+            raise ResourceNotFoundError("os path doesn't exist")
         download_file_path = os.path.join(DOWNLOADS_DIR, str(os_path))
         os.makedirs(os.path.dirname(download_file_path), exist_ok=True)
         with open(download_file_path, "wb") as file:
-            try:
-                file.write(blob_client.download_blob().readall())
-            except ResourceNotFoundError:
-                print("The file doesn't exist in the os")
+            file.write(blob_client.download_blob().readall())
 
     def download_files(self, os_path_list):
         """
