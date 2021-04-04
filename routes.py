@@ -1,6 +1,6 @@
 from flask import Response, jsonify, request
 from flask import current_app as app
-from BionicEye.controllers.video_controller import add_video, get_video_paths
+from BionicEye.controllers.video_controller import add_video, get_video_paths, get_video_path
 from BionicEye.controllers.frame_controller import get_video_frames, get_frame
 
 
@@ -21,6 +21,14 @@ def run_get_video_paths():
     video_paths = get_video_paths()
 
     return jsonify(video_paths)
+
+
+@app.route('/videoPath', methods=['GET'])
+def run_get_video():
+    video_id = request.args.get("video_id")
+    video_path = get_video_path(video_id)
+
+    return jsonify(video_path)
 
 
 @app.route('/framePaths', methods=['GET'])

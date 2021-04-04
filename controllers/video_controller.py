@@ -38,3 +38,14 @@ def get_video_paths():
     video_paths = DB_MANAGER.query(Video.video_path).all()
 
     return [path for (path,) in video_paths]
+
+
+def get_video_path(video_id):
+    """
+    Gets from the db video os path of the video given in the request
+    :param video_id: id of a video to search in the db
+    :return: the os path of the video
+    """
+    video_path = DB_MANAGER.query(Video.video_path).filter_by(id=video_id).one_or_none()
+
+    return video_path
