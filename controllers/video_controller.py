@@ -20,13 +20,13 @@ def add_video(uploaded_file):
     video_name, extension = os.path.splitext(uploaded_file.filename)
 
     if extension not in os.getenv('VIDEO_EXTENSIONS'):
-        raise TypeError("The file must be a video")
+        raise TypeError("The file is not a video")
 
     os.makedirs(video_name, exist_ok=True)
     video_path = os.path.join(video_name, uploaded_file.filename)
 
     uploaded_file.save(video_path)
-    save_video(video_path)
+    save_video(video_path, video_path)
     save_frames(video_path)
 
 
@@ -38,6 +38,17 @@ def get_video_paths():
     video_paths = DB_MANAGER.query(Video.video_path).all()
 
     return [path for (path,) in video_paths]
+
+
+def get_video_path(video_id):
+    """
+    Gets from the db video os path of the video given in the request
+    :param video_id: id of a video to search in the db
+    :return: the os path of the video
+    """
+    video_path = DB_MANAGER.query(Video.video_path).filter_by(id=video_id).one_or_none()
+
+    return video_path
 
 
 def download_video(os_path):

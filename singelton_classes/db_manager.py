@@ -8,6 +8,7 @@ class DBManager(metaclass=SingletonMeta):
         Stores db connection and creates all the tables
         """
         self.db = db
+        self.db.create_all()
 
     def save(self, db_object):
         """
