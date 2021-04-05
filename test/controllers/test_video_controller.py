@@ -1,5 +1,7 @@
 from BionicEye.src.singelton_classes.db_manager import DBManager
 from BionicEye.src.models import Video
+from azure.core.exceptions import ResourceNotFoundError
+from sqlalchemy.exc import DataError
 
 
 def test_get_video_paths_one_video(test_client):
@@ -53,7 +55,7 @@ def test_get_video_path_invalid_id(test_client):
 
     try:
         get_video_path('a')
-    except TypeError:
+    except DataError:
         assert True
     else:
         assert False
@@ -72,3 +74,25 @@ def test_get_video_path_valid_id(test_client):
     db_manager.delete_db()
 
     assert video_path == 'testVideo/Jerusalem2'
+
+
+def test_download_video_os_path_doesnt_exist(test_client):
+    from BionicEye.src.controllers.video_controller import download_video
+
+    try:
+        download_video('a')
+    except ResourceNotFoundError:
+        assert True
+    else:
+        assert False
+
+
+def test_download_video_os_path_invalid(test_client):
+    from BionicEye.src.controllers.video_controller import download_video
+
+    try:
+        download_video(6)
+    except TypeError:
+        assert True
+    else:
+        assert False
