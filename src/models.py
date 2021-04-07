@@ -1,5 +1,5 @@
 from sqlalchemy import ForeignKey
-from BionicEye import db
+from BionicEye.src import db
 
 
 class Video(db.Model):

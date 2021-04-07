@@ -1,6 +1,6 @@
-from BionicEye.video_manipulation_functions.given_functions import generate_metadata, is_frame_tagged
-from BionicEye.models import Metadata
-from BionicEye.singelton_classes.db_manager import DBManager
+from BionicEye.src.video_manipulation_functions.given_functions import generate_metadata, is_frame_tagged
+from BionicEye.src.models import Metadata
+from BionicEye.src.singelton_classes.db_manager import DBManager
 
 DB_MANAGER = DBManager()
 

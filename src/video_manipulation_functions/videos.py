@@ -1,8 +1,8 @@
 import os
-from BionicEye.models import Video
-from BionicEye.singelton_classes.db_manager import DBManager
-from BionicEye.singelton_classes.os_manager import OSManager
-from BionicEye.video_manipulation_functions.frames import count_frames
+from BionicEye.src.models import Video
+from BionicEye.src.singelton_classes.db_manager import DBManager
+from BionicEye.src.singelton_classes.os_manager import OSManager
+from BionicEye.src.video_manipulation_functions.frames import count_frames
 
 DB_MANAGER = DBManager()
 OS_MANAGER = OSManager()

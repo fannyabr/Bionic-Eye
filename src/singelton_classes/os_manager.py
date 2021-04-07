@@ -3,7 +3,7 @@ from azure.core.exceptions import ResourceExistsError, ResourceNotFoundError
 from concurrent.futures import ThreadPoolExecutor
 from dotenv import load_dotenv
 import os
-from BionicEye.singelton_classes.singelton_meta import SingletonMeta
+from BionicEye.src.singelton_classes.singelton_meta import SingletonMeta
 
 
 load_dotenv()

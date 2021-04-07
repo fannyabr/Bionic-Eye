@@ -1,10 +1,10 @@
 import cv2
 import shutil
 import os
-from BionicEye.singelton_classes.db_manager import DBManager
-from BionicEye.singelton_classes.os_manager import OSManager
-from BionicEye.models import Frame, Video
-from BionicEye.video_manipulation_functions.metadata import save_metadata
+from BionicEye.src.singelton_classes.db_manager import DBManager
+from BionicEye.src.singelton_classes.os_manager import OSManager
+from BionicEye.src.models import Frame, Video
+from BionicEye.src.video_manipulation_functions.metadata import save_metadata
 
 DB_MANAGER = DBManager()
 OS_MANAGER = OSManager()
@@ -46,10 +46,12 @@ def save_frames(video_path):
     if not cap.isOpened():
         raise Exception("Can't open video")
 
+    file_name = os.path.basename(video_path)
+    video_name, _ = os.path.splitext(file_name)
+    video_os_path = os.path.join(video_name, file_name)
+    video_id = DB_MANAGER.query(Video.id).filter_by(video_path=video_os_path).one()
     video_dir = os.path.dirname(video_path)
     frames_dir = os.path.join(video_dir, 'frames')
-    video_os_path = os.path.relpath(video_path)
-    video_id = DB_MANAGER.query(Video.id).filter_by(video_path=video_os_path).one()
 
     os.makedirs(frames_dir, exist_ok=True)
 

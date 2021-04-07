@@ -1,5 +1,5 @@
-from BionicEye.singelton_classes.singelton_meta import SingletonMeta
-from BionicEye import db
+from BionicEye.src.singelton_classes.singelton_meta import SingletonMeta
+from BionicEye.src import db
 
 
 class DBManager(metaclass=SingletonMeta):
@@ -25,3 +25,7 @@ class DBManager(metaclass=SingletonMeta):
         :return: the query
         """
         return self.db.session.query(col)
+
+    def delete_db(self):
+        self.db.session.remove()
+        self.db.drop_all()
